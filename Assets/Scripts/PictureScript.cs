@@ -7,6 +7,7 @@
 //  The picture object also needs the following components attached:
 //      - Rigidbody
 //      - BoxCollider
+//  In the VRTK_FixedJointGrabAttch script, the Break Force under Joint Options should be set to "Infinity"
 //</remarks>
 
 

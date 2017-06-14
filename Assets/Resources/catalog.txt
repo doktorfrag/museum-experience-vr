@@ -1,0 +1,4 @@
+Room1,Generic Picture 1,False,Black and white picture,file.prefab
+Room1,Generic Picture 2,False,Black and white picture,file.prefab
+Room2,Generic Picture 1,False,Black and white picture,file.prefab
+Room2,Generic Picture 2,False,Black and white picture,file.prefab
