@@ -73,12 +73,14 @@ public class StatueScript: MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody>().useGravity = false;
             gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            gameObject.GetComponent<Collider>().isTrigger = true;
         }
 
         if (!_statueFrozen)
         {
             gameObject.GetComponent<Rigidbody>().useGravity = true;
             gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            gameObject.GetComponent<Collider>().isTrigger = false;
         }
 
         //fade picture out

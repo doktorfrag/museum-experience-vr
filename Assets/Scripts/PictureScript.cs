@@ -14,7 +14,8 @@
 using UnityEngine;
 using VRTK;
 
-public class PictureScript : MonoBehaviour {
+public class PictureScript : MonoBehaviour
+{
 
     //serialized variables
 
@@ -32,12 +33,18 @@ public class PictureScript : MonoBehaviour {
     private Renderer _rend;
     private Color _fadeColor;
     private bool _pictureFrozen = true;
+    private Rigidbody _thisRigidbody;
+    private Collider _thisCollider;
+
 
     //private variable accessors
 
     //methods
     private void Awake()
     {
+        _thisRigidbody = gameObject.GetComponent<Rigidbody>();
+        _thisCollider = gameObject.GetComponent<Collider>();
+
         //make sure VRTK scripts are attached
         if (GetComponent<VRTK_InteractableObject>() == null)
 
@@ -51,7 +58,8 @@ public class PictureScript : MonoBehaviour {
         GetComponent<VRTK_InteractableObject>().InteractableObjectUngrabbed += new InteractableObjectEventHandler(PictureReleased);
     }
 
-    void Start () {
+    private void Start()
+    {
         //get renderer and set fade color
         //rendering mode on material must be set to "Fade"
         _rend = GetComponent<Renderer>();
@@ -63,25 +71,27 @@ public class PictureScript : MonoBehaviour {
         }
 
         _alphaDiff = alphaStart - alphaEnd;
-	}
-	
-	void Update () {
+    }
+
+   private void Update()
+    {
         //manage picture physics and kinematics states
         if (_pictureFrozen)
         {
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            _thisRigidbody.useGravity = false;
+            _thisRigidbody.Sleep();
         }
 
         if (!_pictureFrozen)
         {
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
-            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            _thisRigidbody.useGravity = true;
+            _thisRigidbody.WakeUp();
         }
 
         //fade picture out
         if (_isFadingOut && !_alreadyFaded)
         {
+            _thisCollider.enabled = false;
             float elapsedTime = Time.time - _startTime;
             if (elapsedTime <= fadeDuration)
             {
@@ -99,8 +109,9 @@ public class PictureScript : MonoBehaviour {
         }
 
         //fade picture in
-        if(!_isFadingOut && _alreadyFaded)
+        if (!_isFadingOut && _alreadyFaded)
         {
+            _thisCollider.enabled = true;
             float elapsedTime = Time.time - _startTime;
             if (elapsedTime <= fadeDuration)
             {
@@ -116,7 +127,7 @@ public class PictureScript : MonoBehaviour {
                 _alreadyFaded = false;
             }
         }
-	}
+    }
 
     private void PictureGrabbed(object sender, InteractableObjectEventArgs e)
     {
@@ -127,19 +138,21 @@ public class PictureScript : MonoBehaviour {
 
     private void PictureReleased(object sender, InteractableObjectEventArgs e)
     {
+        _pictureFrozen = false;
         FadePictureIn();
         RaycastHit hit;
+
         //raycast in direction of picture back
         if (Physics.Raycast(gameObject.transform.position, -transform.forward, out hit, 1.0f))
         {
-            if(hit.collider.tag == "Wall")
+            if (hit.collider.tag == "Wall")
             {
                 //remove gravity and kinematic so picture hangs on wall
                 _pictureFrozen = true;
 
                 //align picture to wall
                 //Quaternion.LookRotation() points the positive 'Z' side of the picture in a specified direction.
-                Collider coll = hit.transform.gameObject.GetComponent<Collider>(); 
+                Collider coll = hit.transform.gameObject.GetComponent<Collider>();
                 Quaternion rotation = Quaternion.LookRotation(hit.normal);
                 gameObject.transform.rotation = rotation;
                 Vector3 closestBounds = coll.ClosestPointOnBounds(transform.localPosition);
@@ -148,10 +161,6 @@ public class PictureScript : MonoBehaviour {
                             transform.position.y,
                             closestBounds.z
                         );
-            }
-            else
-            {
-                _pictureFrozen = false;
             }
         }
     }

@@ -1,19 +1,19 @@
 ﻿public class CatalogEntry {
 
-    //struct variables
-    private string _roomNumber;
-    private string _resourceTitle;
-    private bool _resourceDisplayed;
-    private string _resourceDescription;
-    private string _filePath;
+    //class variables
+    public string roomNumber;
+    public string resourceTitle;
+    public bool resourceDisplayed;
+    public string resourceDescription;
+    public string filePath;
 
     //constructor
     public CatalogEntry(string room, string title, bool displayed, string desc, string path)
     {
-        _roomNumber = room;
-        _resourceTitle = title;
-        _resourceDisplayed = displayed;
-        desc = _resourceDescription;
-        _filePath = path;
+        roomNumber = room;
+        resourceTitle = title;
+        resourceDisplayed = displayed;
+        resourceDescription = desc;
+        filePath = path;
     }
 }

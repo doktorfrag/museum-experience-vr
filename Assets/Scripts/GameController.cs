@@ -9,18 +9,32 @@ public class GameController : MonoBehaviour
     //public variables
 
     //private variables
-    private static GameController _gameControllerInstance;
     private List<CatalogEntry> _catalog = new List<CatalogEntry>();
 
     //private variable accessors
+    private static GameController _gameControllerInstance;
     public static GameController Instance
     {
         get { return _gameControllerInstance ?? (_gameControllerInstance = new GameObject("GameController").AddComponent<GameController>()); }
     }
 
+    private string _currentRoom;
+    public string CurrentRoom
+    {
+        get
+        {
+            return _currentRoom;
+        }
+
+        set
+        {
+            _currentRoom = value;
+        }
+    }
+
     //methods
 
-    //method to read entire TXT file in on initialization
+    //method to read in entire TXT file for catalog on initialization
     private void ReadDataFile()
     {
         StreamReader reader = new StreamReader("Assets/Resources/catalog.txt");
@@ -29,18 +43,41 @@ public class GameController : MonoBehaviour
         {
             char[] delimiter = { ',' };
             string[] entryFields = s.Split(delimiter);
-            //Debug.Log(entryFields[0] + " " + entryFields[1] + " " + entryFields[2] + " " + entryFields[3] + " " + entryFields[4]);
             _catalog.Add(new CatalogEntry(entryFields[0], entryFields[1], Convert.ToBoolean(entryFields[2]), entryFields[3], entryFields[4]));
             s = reader.ReadLine();
         }
     }
-    
-    public void GetRoomCatalog(string roomID)
+
+    //only returns portion of the catalog for room which which player is located
+    public List<CatalogEntry> GetRoomCatalog(string roomID)
     {
-        Debug.Log(roomID);
-        ReadDataFile();
-        //get index for where where entries start/stop in list?
-        //return list and indices
+        List<CatalogEntry> roomCatalog = new List<CatalogEntry>();
+        if (_catalog.Count == 0)
+        {
+            ReadDataFile();
+        }
+
+        foreach (CatalogEntry entry in _catalog)
+        {
+            if(roomID == entry.roomNumber)
+            {
+                roomCatalog.Add(entry);
+            }
+        }
+
+        return roomCatalog;
+    }
+
+    //receives data from CatalogButtonScript.cs to flag art in catalog as already being displayed
+    public void UpdateCatalog(string room, string artwork)
+    {
+        foreach(CatalogEntry entry in _catalog)
+        {
+            if(room == entry.roomNumber && artwork == entry.resourceTitle)
+            {
+                entry.resourceDisplayed = true;
+            }
+        }
     }
 
 }
