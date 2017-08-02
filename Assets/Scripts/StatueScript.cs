@@ -32,12 +32,17 @@ public class StatueScript: MonoBehaviour
     private Renderer _rend;
     private Color _fadeColor;
     private bool _statueFrozen = true;
+    private Rigidbody _thisRigidbody;
+    private Collider _thisCollider;
 
     //private variable accessors
 
     //methods
     private void Awake()
     {
+        _thisRigidbody = gameObject.GetComponent<Rigidbody>();
+        _thisCollider = gameObject.GetComponent<Collider>();
+
         //make sure VRTK scripts are attached
         if (GetComponent<VRTK_InteractableObject>() == null)
 
@@ -47,8 +52,8 @@ public class StatueScript: MonoBehaviour
         }
 
         //create event listeners for grabbing and releasing picture
-        GetComponent<VRTK_InteractableObject>().InteractableObjectGrabbed += new InteractableObjectEventHandler(PictureGrabbed);
-        GetComponent<VRTK_InteractableObject>().InteractableObjectUngrabbed += new InteractableObjectEventHandler(PictureReleased);
+        GetComponent<VRTK_InteractableObject>().InteractableObjectGrabbed += new InteractableObjectEventHandler(StatueGrabbed);
+        GetComponent<VRTK_InteractableObject>().InteractableObjectUngrabbed += new InteractableObjectEventHandler(StatueReleased);
     }
 
     void Start()
@@ -71,21 +76,20 @@ public class StatueScript: MonoBehaviour
         //manage statue physics and kinematics states
         if (_statueFrozen)
         {
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            gameObject.GetComponent<Collider>().isTrigger = true;
+            _thisRigidbody.useGravity = false;
+            _thisRigidbody.Sleep();
         }
 
         if (!_statueFrozen)
         {
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
-            gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            gameObject.GetComponent<Collider>().isTrigger = false;
+            _thisRigidbody.useGravity = true;
+            _thisRigidbody.WakeUp();
         }
 
         //fade picture out
         if (_isFadingOut && !_alreadyFaded)
         {
+            _thisCollider.enabled = false;
             float elapsedTime = Time.time - _startTime;
             if (elapsedTime <= fadeDuration)
             {
@@ -105,6 +109,7 @@ public class StatueScript: MonoBehaviour
         //fade picture in
         if (!_isFadingOut && _alreadyFaded)
         {
+            _thisCollider.enabled = true;
             float elapsedTime = Time.time - _startTime;
             if (elapsedTime <= fadeDuration)
             {
@@ -122,14 +127,14 @@ public class StatueScript: MonoBehaviour
         }
     }
 
-    private void PictureGrabbed(object sender, InteractableObjectEventArgs e)
+    private void StatueGrabbed(object sender, InteractableObjectEventArgs e)
     {
         //set gravity and kinematic for simulation realism
         _statueFrozen = false;
         FadePictureOut();
     }
 
-    private void PictureReleased(object sender, InteractableObjectEventArgs e)
+    private void StatueReleased(object sender, InteractableObjectEventArgs e)
     {
         FadePictureIn();
     }

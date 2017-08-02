@@ -32,5 +32,6 @@ public class CatalogButtonScript : MonoBehaviour {
         _catalogList.RefreshMenu();
 
         //instantiate artwork in room
+        Debug.Log("Just hung " + resourceTitle + " in " + roomNumber + ". " + "Art description: " + resourceDescription);
     }
 }
