@@ -1,16 +1,16 @@
-Room 1,Generic Picture 1,False,Black and white picture,file.prefab
-Room 1,Generic Picture 2,False,Black and white picture,file.prefab
-Room 1,Generic Picture 3,False,Black and white picture,file.prefab
-Room 1,Generic Picture 4,False,Black and white picture,file.prefab
-Room 1,Generic Picture 5,False,Black and white picture,file.prefab
-Room 1,Generic Picture 6,False,Black and white picture,file.prefab
-Room 1,Generic Picture 7,False,Black and white picture,file.prefab
-Room 1,Generic Picture 8,False,Black and white picture,file.prefab
-Room 1,Generic Picture 9,False,Black and white picture,file.prefab
-Room 1,Generic Picture 10,False,Black and white picture,file.prefab
-Room 1,Generic Picture 11,False,Black and white picture,file.prefab
-Room 1,Generic Picture 12,False,Black and white picture,file.prefab
-Room 2,Generic Picture 1,False,Black and white picture,file.prefab
-Room 2,Generic Picture 2,False,Black and white picture,file.prefab
-Room 2,Generic Picture 3,False,Black and white picture,file.prefab
-Room 2,Generic Picture 4,False,Black and white picture,file.prefab
+Room 1,Picture 1,False,A grey picture with black print,file.prefab
+Room 1,Picture 2,False,Black and white picture,file.prefab
+Room 1,Picture 3,False,Black and white picture,file.prefab
+Room 1,Picture 4,False,Black and white picture,file.prefab
+Room 1,Picture 5,False,Black and white picture,file.prefab
+Room 1,Picture 6,False,Black and white picture,file.prefab
+Room 1,Picture 7,False,Black and white picture,file.prefab
+Room 1,Picture 8,False,Black and white picture,file.prefab
+Room 1,Picture 9,False,Black and white picture,file.prefab
+Room 1,Picture 10,False,Black and white picture,file.prefab
+Room 1,Picture 11,False,Black and white picture,file.prefab
+Room 1,Picture 12,False,Black and white picture,file.prefab
+Room 2,Picture 1,False,Black and white picture,file.prefab
+Room 2,Picture 2,False,Black and white picture,file.prefab
+Room 2,Picture 3,False,Black and white picture,file.prefab
+Room 2,Picture 4,False,Black and white picture,file.prefab
